@@ -26,7 +26,7 @@ router.get("/", function(req, res){
 
 // Show the register form
 router.get("/register", function(req, res){
-    res.render("register");
+    res.render("register", {page: 'register'});
 });
 
 // Handle Signup Logic
@@ -48,7 +48,7 @@ router.post("/register", function(req, res){
 
 // Show Login Form
 router.get("/login", function(req, res){
-    res.render("login"); //why not a redirect? Wmonell this is the route that actually tells it what to render.
+    res.render("login", {page: 'login'}); //why not a redirect? This is the route that actually tells it what to render.
 });
 
 // Handling Login Logic

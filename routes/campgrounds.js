@@ -8,7 +8,7 @@ var middleware = require("../middleware"); //don't need to specify index.js, it'
 
 var Campground = require("../models/campground");
 
-//Index Route - Display info on ALL campgrounds
+//INDEX Route - Display info on ALL campgrounds
 router.get("/", function(req, res){ //This still goes to /campgrounds but that is specified in app.js when it is used: app.use("/campgrounds", campgroundRoutes);
     //Get all campgrounds from DB
     Campground.find({}, function(err, allCampgrounds){
@@ -16,7 +16,7 @@ router.get("/", function(req, res){ //This still goes to /campgrounds but that i
             // This could be set up so that the submitted campground is checked and rejected if invalid
             dbErrorResponse(req, res, err);
         } else {
-            res.render("campgrounds/index", {campgrounds: allCampgrounds});
+            res.render("campgrounds/index", {campgrounds: allCampgrounds, page: 'campgrounds'}); //pass through the page name so the nav bar highlights the correct icon
         }
     });
 });
