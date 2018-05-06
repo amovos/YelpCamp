@@ -1,4 +1,5 @@
 /node_modules
+launch.sh
 .hgignore
 node_modules
 .c9

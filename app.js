@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 // ==========================
 // DB CONFIG
 // ==========================
-var url = process.env.YELPDBURL || "mongodb://localhost/yelp_camp"; //creates a backup so that if the environment variable isn't set up it has a backup
+var url = process.env.DATABASEURL || "mongodb://localhost/yelp_camp"; //creates a backup so that if the environment variable isn't set up it has a backup
 mongoose.connect(url);
 
 // ==========================
@@ -38,8 +38,9 @@ var User        = require("./models/user"),
 // ==========================
 // PASSPORT CONFIG
 // ==========================
+var pwdSalt = process.env.SECRETSALT || "Dev Salt";
 app.use(require("express-session")({
-    secret: process.env.SECRETSALT,
+    secret: pwdSalt,
     resave: false,
     saveUninitialized: false
 }));
