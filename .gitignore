@@ -1,7 +1,7 @@
 /node_modules
+node_modules
 launch.sh
 .hgignore
-node_modules
 .c9
 .DS_Store
 Thumbs.db

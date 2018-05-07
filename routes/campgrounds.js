@@ -2,11 +2,34 @@
 // CAMPGROUND ROUTES
 // ==========================
 
+
+// NEED TO REFORMAT THESE REQUIRES
 var express = require("express");
 var router = express.Router();
 var middleware = require("../middleware"); //don't need to specify index.js, it's a special name when you require a directory
-
 var Campground = require("../models/campground");
+
+
+
+
+
+var NodeGeocoder = require('node-geocoder');
+ 
+var options = {
+  provider: 'google',
+  httpAdapter: 'https',
+  apiKey: process.env.GEOCODER_API_KEY,
+  formatter: null
+};
+ 
+var geocoder = NodeGeocoder(options);
+
+
+
+
+
+
+
 
 //INDEX Route - Display info on ALL campgrounds
 router.get("/", function(req, res){ //This still goes to /campgrounds but that is specified in app.js when it is used: app.use("/campgrounds", campgroundRoutes);
@@ -26,27 +49,45 @@ router.get("/new", middleware.isLoggedIn, function(req, res){ //REST convention 
     res.render("campgrounds/new");
 });
 
-//POST - Route to add submitted campground to DB
+//CREATE - Route to add submitted campground to DB
 router.post("/", middleware.isLoggedIn, function(req, res){ //REST convention to use the same route name but as a post to submit 
     
-    // store the author details from the request in the variable "author"
+    // AUTHOR
+    //store the author details from the request in the variable "author"
     var author = {
         id: req.user._id,
         username: req.user.username
     };
-
     //add the author to the newCampground object using dot notation
     req.body.newCampground.author = author; 
     
-    //Create a new campground and save to database
-    Campground.create(req.body.newCampground, function(err, newlyCreated){
-        if(err){
-            dbErrorResponse(req, res, err);
-        } else {
-            //redirect back to campgrounds page
-            req.flash("successMessage", "Successfully added campground");
-            res.redirect("/campgrounds"); //defaults to a GET request
+    
+    // GEOCODE
+    //generate geocode data (then only create once the geocoder is finished)
+    geocoder.geocode(req.body.newCampground.location, function (err, data) {
+        if (err || !data.length) {
+          req.flash('error', 'Invalid address');
+          return res.redirect('back');
         }
+        var lat = data[0].latitude;
+        var lng = data[0].longitude;
+        var location = data[0].formattedAddress;
+        
+        //add the geocode data to the newCampground object using dot notation
+        req.body.newCampground.location = location; //This uses the nicely formatted location that is returned by geocoder and replaces the original content  
+        req.body.newCampground.lat = lat; 
+        req.body.newCampground.lng = lng;
+        
+        //Create a new campground and save to database
+        Campground.create(req.body.newCampground, function(err, newlyCreated){
+            if(err){
+                dbErrorResponse(req, res, err);
+            } else {
+                //redirect back to campgrounds page
+                req.flash("successMessage", "Successfully added campground");
+                res.redirect("/campgrounds"); //defaults to a GET request
+            }
+        });        
     });
 });
 
@@ -77,14 +118,25 @@ router.get("/:id/edit", middleware.checkCampgroundOwnership, function(req, res) 
 
 // UPDATE CAMPGROUND ROUTE
 router.put("/:id", middleware.checkCampgroundOwnership, function(req, res){
-    //find and update the correct campground
-    Campground.findByIdAndUpdate(req.params.id, req.body.newCampground, function(err, updatedCampground){
-        if(err){
-            dbErrorResponse(req, res, err);
-        } else {
-            req.flash("successMessage", "Successfully updated campground");
-            res.redirect("/campgrounds/" + req.params.id);
+   // GEOCODER 
+    geocoder.geocode(req.body.Campground.location, function (err, data) {
+            if (err || !data.length) {
+            req.flash('error', 'Invalid address');
+            return res.redirect('back');
         }
+        req.body.Campground.lat = data[0].latitude;
+        req.body.Campground.lng = data[0].longitude;
+        req.body.Campground.location = data[0].formattedAddress;
+       
+        //find and update the correct campground
+        Campground.findByIdAndUpdate(req.params.id, req.body.Campground, function(err, updatedCampground){
+            if(err){
+                dbErrorResponse(req, res, err);
+            } else {
+                req.flash("successMessage", "Successfully updated campground");
+                res.redirect("/campgrounds/" + req.params.id);
+            }
+        });
     });
 });
 
