@@ -16,20 +16,20 @@ middlewareObj.checkCampgroundOwnership = function(req, res, next) {
             if(err || !foundCampground){ //handles the error of a valid ID being sent to the database and it returning null (stops the app crashing)
                 console.log(err);
                 req.flash("errorMessage", "Campground not found, it may not exist or there might be a connection error with the database. Please try again later.");
-                res.redirect("back");
+                res.redirect("/campgrounds");
             } else {
                 //does user own campground?
                 if(foundCampground.author.id.equals(req.user._id)){ //use this mongoose method .equals() to make a comparison of user ids
                     next(); // if everything works, the middleware is done and it carries on with the code in the particular route
                 } else {
                     req.flash("errorMessage", "You don't have permission to edit this campground");
-                    res.redirect("back");
+                    res.redirect("/campgrounds");
                 }
             }
         });
     } else {
         req.flash("errorMessage", "You need to be logged in to edit a campground");
-        res.redirect("back"); //takes the user back to where they came from
+        res.redirect("/login"); //takes the user back to where they came from
     }
 };
 
@@ -40,20 +40,20 @@ middlewareObj.checkCommentOwnership = function(req, res, next) {
             if(err || !foundComment){
                 console.log(err);
                 req.flash("errorMessage", "Comment not found");
-                res.redirect("back");
+                res.redirect("/campgrounds");
             } else {
                 //does user own comment?
                 if(foundComment.author.id.equals(req.user._id)){ //use this mongoose method .equals() to make a comparison of user ids
                     next(); //if everything works, the middleware is done and it carries on with the code in the particular route
                 } else {
-                    req.flash("errorMessage", "You don't have permission to edit this comment");
-                    res.redirect("back");
+                    req.flash("errorMessage", "You don't have permission to edit that comment");
+                    res.redirect("/campgrounds");
                 }
             }
         });
     } else {
         req.flash("errorMessage", "You need to be logged in to do that");
-        res.redirect("back"); //takes the user back to where they came from
+        res.redirect("/login"); //takes the user back to where they came from
     }
 };
 
