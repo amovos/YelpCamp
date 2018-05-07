@@ -22,7 +22,7 @@ var createRoute = function(req, res){ //REST convention to use the same route na
     //generate geocode data (then only create once the geocoder is finished)
     geocoder.geocode(req.body.newCampground.location, function (err, data) {
         if (err || !data.length) {
-          req.flash('error', 'Invalid address');
+          req.flash('errorMessage', 'Invalid address');
           return res.redirect('back');
         }
         var lat = data[0].latitude;
@@ -40,9 +40,6 @@ var createRoute = function(req, res){ //REST convention to use the same route na
                 dbErrorResponse(req, res, err);
             } else {
                 //redirect back to campgrounds page
-                console.log("newlyCreated: " + newlyCreated);
-                console.log("newlyCreated._id: " + newlyCreated._id);
-                console.log("newlyCreated.id: " + newlyCreated.id);
                 req.flash("successMessage", "Successfully added campground");
                 res.redirect("/campgrounds/" + newlyCreated._id); //redirects to the newly created campground
             }
