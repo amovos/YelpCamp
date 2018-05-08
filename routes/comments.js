@@ -9,6 +9,10 @@ var middleware = require("../middleware"); //don't need to specify index.js, it'
 var Campground = require("../models/campground");
 var Comment = require("../models/comment");
 
+// ==========================
+// RESTFUL ROUTES
+// ==========================
+
 //Comments NEW
 router.get("/new", middleware.isLoggedIn, function(req, res){
     //find campground by the id from the url

@@ -81,6 +81,7 @@ app.use(function(req, res, next){
 // ==========================
 var commentRoutes       = require("./routes/comments"),
     campgroundRoutes    = require("./routes/campgrounds"),
+    //add auth routes here
     indexRoutes         = require("./routes/index");
 
 //once the route files have been required they need to actually be used in the app, using the Express Router

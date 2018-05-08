@@ -2,12 +2,13 @@
 // CAMPGROUND ROUTES
 // ==========================
 
-// NEED TO REFORMAT THESE REQUIRES
 var express = require("express");
 var router = express.Router();
 var middleware = require("../middleware"); //don't need to specify index.js, it's a special name when you require a directory
-var Campground = require("../models/campground");
 
+// ==========================
+// RESTFUL ROUTES
+// ==========================
 
 // INDEX CAMPGROUND ROUTE - Display info on ALL campgrounds
 var indexRoute = require("./campgrounds/index");
