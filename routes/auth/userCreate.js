@@ -9,7 +9,7 @@ var createRoute = function(req, res){
     var newUser = new User({username: req.body.username}); //Creates a new user with just a username
     
     //if admin code is correct make the new user an admin
-    if(req.body.adminCode === "admin123"){ //make an ENV variable to hide
+    if(req.body.adminCode === process.env.ADMIN_CODE){ //make an ENV variable to hide
         newUser.isAdmin = true;
     }
     
