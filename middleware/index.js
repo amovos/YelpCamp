@@ -15,7 +15,7 @@ middlewareObj.checkCampgroundOwnership = function(req, res, next) {
         Campground.findById(req.params.id, function(err, foundCampground){ //foundCampground.author.id isn't a string (even though it may look like it when printed out) it's infact a mongoose object
             if(err || !foundCampground){ //handles the error of a valid ID being sent to the database and it returning null (stops the app crashing)
                 console.log(err);
-                req.flash("errorMessage", "Campground not found, it may not exist or there might be a connection error with the database. Please try again later.");
+                req.flash("errorMessage", "Campground not found");
                 res.redirect("/campgrounds");
             } else {
                 //does user own campground?

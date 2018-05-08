@@ -79,14 +79,15 @@ app.use(function(req, res, next){
 // ==========================
 // ROUTES
 // ==========================
-var commentRoutes       = require("./routes/comments"),
-    campgroundRoutes    = require("./routes/campgrounds"),
-    //add auth routes here
-    indexRoutes         = require("./routes/index");
+var indexRoutes         = require("./routes/index"),
+    authRoutes          = require("./routes/auth"),
+    commentRoutes       = require("./routes/comments"),
+    campgroundRoutes    = require("./routes/campgrounds");
 
 //once the route files have been required they need to actually be used in the app, using the Express Router
 //the URLs can be shortened here by adding the first common part here e.g. /campgrounds.
 app.use("/", indexRoutes);
+app.use("/", authRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 

@@ -22,7 +22,7 @@ router.get("/new", middleware.isLoggedIn, newRoute);
 var createRoute = require("./campgrounds/create");
 router.post("/", middleware.isLoggedIn, createRoute);
 
-//SHOW CAMPGROUND ROUTE - shows more info about one campground
+// SHOW CAMPGROUND ROUTE - shows more info about one campground
 var showRoute = require("./campgrounds/show");
 router.get("/:id", showRoute);
 
