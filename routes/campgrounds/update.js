@@ -8,11 +8,13 @@ var geocoder = require("../shared/geocoder");
 
 var updateRoute = function(req, res){
     // GEOCODER 
+    // check if location info has changed otherwise don't re-geocode and charge for it
     geocoder.geocode(req.body.Campground.location, function (err, data) {
             if (err || !data.length) {
             req.flash('errorMessage', 'Invalid address');
             return res.redirect('back');
         }
+        //overwrite existing location values with new geocoded values
         req.body.Campground.lat = data[0].latitude;
         req.body.Campground.lng = data[0].longitude;
         req.body.Campground.location = data[0].formattedAddress;

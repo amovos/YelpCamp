@@ -9,24 +9,28 @@
         <div style="width:30%; margin: 0 auto;">
             <form action="/campgrounds" method="POST">
                 <div class="form-group">
-                    <input class="form-control" type="text" name="newCampground[name]" placeholder="name">
+                    <label for="name">Campground Name</label>
+                    <input class="form-control" type="text" name="Campground[name]" id="name" placeholder="e.g. Woodlarks Campsite">
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="number" name="newCampground[price]" placeholder="price" min="0.01" step="0.01">
+                    <label for="price">Price per Night (£)</label>
+                    <input class="form-control" type="number" name="Campground[price]" id="price" placeholder="e.g. 15" min="1" step="1">
                 </div>
                 <div class="form-group">
                     <label for="location">Location</label>
-                    <input class="form-control" type="text" name="newCampground[location]" id="location" placeholder="Yosemite National Park, CA">
+                    <input class="form-control" type="text" name="Campground[location]" id="location" placeholder="e.g. Woodlarks Campsite, Farnham, Surrey">
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" name="newCampground[image]" placeholder="image url">
+                    <label for="image">Image URL</label>
+                    <input class="form-control" type="text" name="Campground[image]" id="image" placeholder="e.g. https://images.unsplash.com/...">
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" name="newCampground[description]" placeholder="description">
+                    <label for="image">Description</label>
+                    <input class="form-control" type="text" name="Campground[description]" id="description" placeholder="e.g. A fully accessible campsite with an outdoor heated pool and a zipline!">
                 </div>   
                 <div class="form-group">
                     <button class="btn btn-lg btn-primary btn-block">Submit!</button>
-                </div>                     
+                </div>
             </form>
             <a href="/campgrounds">Go Back</a>
         </div>

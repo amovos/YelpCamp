@@ -25,16 +25,13 @@ var createRoute = function(req, res){ //REST convention to use the same route na
           req.flash('errorMessage', 'Invalid address');
           return res.redirect('back');
         }
-        var lat = data[0].latitude;
-        var lng = data[0].longitude;
-        var location = data[0].formattedAddress;
-        
         //add the geocode data to the newCampground object using dot notation
-        req.body.newCampground.location = location; //This uses the nicely formatted location that is returned by geocoder and replaces the original content  
-        req.body.newCampground.lat = lat; 
-        req.body.newCampground.lng = lng;
-        
+        req.body.newCampground.lat = data[0].latitude;
+        req.body.newCampground.lng = data[0].longitude;
+        req.body.newCampground.location = data[0].formattedAddress; //This uses the nicely formatted location that is returned by geocoder and replaces the original content 
+
         //Create a new campground and save to database
+        //Could move outside of the GEOCODE so it's not dependent on an external service
         Campground.create(req.body.newCampground, function(err, newlyCreated){
             if(err){
                 dbErrorResponse(req, res, err);

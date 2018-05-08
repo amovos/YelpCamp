@@ -20,6 +20,8 @@ app.use(methodOverride("_method")); // method override needed for HTML forms tha
 app.use(express.static(__dirname + "/public")); //Configure Public Directory
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.locals.moment = require('moment'); //used for time tracking
+
 
 // ==========================
 // DB CONFIG
@@ -27,14 +29,13 @@ app.use(bodyParser.urlencoded({extended: true}));
 var url = process.env.DATABASEURL || "mongodb://localhost/yelp_camp"; //creates a backup so that if the environment variable isn't set up it has a backup
 mongoose.connect(url);
 
+
 // ==========================
 // REQUIRE DB MODELS
 // ==========================
-var User        = require("./models/user"),
-    Campground  = require("./models/campground"),
-    Comment     = require("./models/comment");
+var User = require("./models/user");
     
-
+    
 // ==========================
 // PASSPORT CONFIG
 // ==========================
